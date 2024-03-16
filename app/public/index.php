@@ -27,5 +27,13 @@ $router->post('/categories', 'CategoryController@create');
 $router->put('/categories/(\d+)', 'CategoryController@update');
 $router->delete('/categories/(\d+)', 'CategoryController@delete');
 
+// routes for the articles endpoint
+$router->get('/articles', 'ArticleController@getAll');
+$router->get('/articles/(\d+)', 'ArticleController@getOne');
+$router->post('/articles', 'ArticleController@create');
+$router->put('/articles/(\d+)', 'ArticleController@update');
+$router->delete('/articles/(\d+)', 'ArticleController@delete');
+
+
 // Run it!
 $router->run();

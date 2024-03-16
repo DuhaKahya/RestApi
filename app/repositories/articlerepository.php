@@ -12,7 +12,7 @@ class ArticleRepository extends Repository
     public function getAll($offset = NULL, $limit = NULL)
     {
         try {
-            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN categories AS category ON article.category_id = category.id";
+            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN category ON article.category_id = category.id";
             if (isset($limit) && isset($offset)) {
                 $query .= " LIMIT :limit OFFSET :offset ";
             }
@@ -37,7 +37,7 @@ class ArticleRepository extends Repository
     public function getOne($id)
     {
         try {
-            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN categories AS category ON article.category_id = category.id WHERE article.id = :id";
+            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN category ON article.category_id = category.id WHERE article.id = :id";
             $stmt = $this->connection->prepare($query);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
@@ -55,9 +55,9 @@ class ArticleRepository extends Repository
     public function insert($article)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT INTO articles (title, description, price, stock, category_id) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $this->connection->prepare("INSERT INTO articles (title, description, price, stock, category_id, image) VALUES (?, ?, ?, ?, ?, ?)");
 
-            $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id]);
+            $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image]);
 
             $article->id = $this->connection->lastInsertId();
 
@@ -70,9 +70,9 @@ class ArticleRepository extends Repository
     public function update($article, $id)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE articles SET title = ?, description = ?, price = ?, stock = ?, category_id = ? WHERE id = ?");
+            $stmt = $this->connection->prepare("UPDATE articles SET title = ?, description = ?, price = ?, stock = ?, category_id = ?, image = ? WHERE id = ?");
 
-            $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $id]);
+            $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image, $id]);
 
             return $this->getOne($id);
         } catch (PDOException $e) {
@@ -101,8 +101,7 @@ class ArticleRepository extends Repository
         $article->price = $row['price'];
         $article->stock = $row['stock'];
         $article->category_id = $row['category_id'];
-
-        // Opmerking: Je moet de categoriegegevens mogelijk ophalen vanuit de database en instellen in het artikelobject.
+        $article->image = $row['image']; // Voeg de kolom image toe aan het artikelobject
 
         return $article;
     }
