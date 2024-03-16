@@ -9,9 +9,7 @@ class Article {
     public float $price;
     public string $image;
     public int $stock;
-    public string $category_id;
-    public Category $category;
-
+    public int $category_id;
 
 }
 
