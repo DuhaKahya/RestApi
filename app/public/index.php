@@ -34,6 +34,9 @@ $router->post('/articles', 'ArticleController@create');
 $router->put('/articles/(\d+)', 'ArticleController@update');
 $router->delete('/articles/(\d+)', 'ArticleController@delete');
 
+// routes for the users endpoint
+$router->post('/users/login', 'UserController@login');
+
 
 // Run it!
 $router->run();
