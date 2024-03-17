@@ -10,6 +10,7 @@ class Article {
     public string $image;
     public int $stock;
     public int $category_id;
+    public string $category_name;
 
 }
 

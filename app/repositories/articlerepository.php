@@ -6,6 +6,7 @@ use PDO;
 use PDOException;
 use Repositories\Repository;
 use Models\Article;
+use Models\Category;
 
 class ArticleRepository extends Repository
 {
@@ -62,10 +63,12 @@ class ArticleRepository extends Repository
             $article->id = $this->connection->lastInsertId();
 
             return $this->getOne($article->id);
+
         } catch (PDOException $e) {
             echo $e;
         }
     }
+    
 
     public function update($article, $id)
     {
@@ -75,10 +78,12 @@ class ArticleRepository extends Repository
             $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image, $id]);
 
             return $this->getOne($id);
+
         } catch (PDOException $e) {
             echo $e;
         }
     }
+
 
     public function delete($id)
     {
@@ -101,7 +106,8 @@ class ArticleRepository extends Repository
         $article->price = $row['price'];
         $article->stock = $row['stock'];
         $article->category_id = $row['category_id'];
-        $article->image = $row['image']; // Voeg de kolom image toe aan het artikelobject
+        $article->category_name = $row['category_name'];
+        $article->image = $row['image']; 
 
         return $article;
     }

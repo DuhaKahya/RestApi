@@ -3,7 +3,6 @@
 namespace Services;
 
 use Repositories\ArticleRepository;
-use Models\Article;
 
 class ArticleService {
 
@@ -25,12 +24,16 @@ class ArticleService {
         return $this->articleRepository->getOne($id); 
     }
 
-    public function update($article) {
-        $this->articleRepository->update($article);
+    public function update($article, $id) {
+        $this->articleRepository->update($article, $id);
     }
 
     public function delete($id) {
         $this->articleRepository->delete($id);
+    }
+
+    public function getOne($id) {
+        return $this->articleRepository->getOne($id);
     }
 }
 
