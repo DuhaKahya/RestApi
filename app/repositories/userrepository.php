@@ -50,7 +50,7 @@ class UserRepository extends Repository
     public function getAll(){
         $statement = $this->connection->prepare("SELECT * FROM User");
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Models\User");
         return $statement->fetchAll();
     }
 
@@ -60,22 +60,25 @@ class UserRepository extends Repository
         $statement = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
         $statement->bindParam(":username", $username);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Models\User");
+        
         return $statement->fetch();
     }
 
     public function insert($user) {
-        
-        $statement = $this->connection->prepare("INSERT INTO User (username, password, email, name, adres, phonenumber, registrationdate) 
-        VALUES (:username, :password, :email, :name, :adres, :phonenumber, CURRENT_TIMESTAMP)");
 
+        $statement = $this->connection->prepare("INSERT INTO User (username, password, email, name, adres, phonenumber, registrationdate, roleid) 
+        VALUES (:username, :password, :email, :name, :adres, :phonenumber, CURRENT_TIMESTAMP, :roleid)");
+    
         $statement->bindParam(":username", $user->username);
         $statement->bindParam(":password", $user->password);
         $statement->bindParam(":email", $user->email);
         $statement->bindParam(":name", $user->name);
         $statement->bindParam(":adres", $user->adres);
         $statement->bindParam(":phonenumber", $user->phonenumber);
-        
+        $statement->bindParam(":roleid", $user->roleId); 
+    
         $statement->execute();
     }
+    
 }

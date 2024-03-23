@@ -51,9 +51,9 @@ class UserController extends Controller
     public function register() {
         // read user data from request body
         $userData = $this->createObjectFromPostedJson("Models\\User");
-    
+
         // check if the username is already taken
-        $user = $this->service->getByUsername($userData->username);
+        $user = $this->service->getUserByUsername($userData->username);
     
         // if the method returned a user, the username is already taken
         if ($user) {
