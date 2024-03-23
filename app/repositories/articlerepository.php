@@ -13,7 +13,7 @@ class ArticleRepository extends Repository
     public function getAll($offset = NULL, $limit = NULL)
     {
         try {
-            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN category ON article.category_id = category.id";
+            $query = "SELECT article.*, Category.name as category_name FROM Articles AS article INNER JOIN Category ON article.Category_id = Category.id";
             if (isset($limit) && isset($offset)) {
                 $query .= " LIMIT :limit OFFSET :offset ";
             }
@@ -38,7 +38,7 @@ class ArticleRepository extends Repository
     public function getOne($id)
     {
         try {
-            $query = "SELECT article.*, category.name as category_name FROM articles AS article INNER JOIN category ON article.category_id = category.id WHERE article.id = :id";
+            $query = "SELECT article.*, Category.name as category_name FROM Articles AS article INNER JOIN Category ON article.Category_id = Category.id WHERE article.id = :id";
             $stmt = $this->connection->prepare($query);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
@@ -56,7 +56,7 @@ class ArticleRepository extends Repository
     public function insert($article)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT INTO articles (title, description, price, stock, category_id, image) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $this->connection->prepare("INSERT INTO Articles (title, description, price, stock, category_id, image) VALUES (?, ?, ?, ?, ?, ?)");
 
             $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image]);
 
@@ -73,7 +73,7 @@ class ArticleRepository extends Repository
     public function update($article, $id)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE articles SET title = ?, description = ?, price = ?, stock = ?, category_id = ?, image = ? WHERE id = ?");
+            $stmt = $this->connection->prepare("UPDATE Articles SET title = ?, description = ?, price = ?, stock = ?, category_id = ?, image = ? WHERE id = ?");
 
             $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image, $id]);
 
@@ -88,7 +88,7 @@ class ArticleRepository extends Repository
     public function delete($id)
     {
         try {
-            $stmt = $this->connection->prepare("DELETE FROM articles WHERE id = :id");
+            $stmt = $this->connection->prepare("DELETE FROM Articles WHERE id = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
             return;

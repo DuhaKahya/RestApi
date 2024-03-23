@@ -11,7 +11,7 @@ class CategoryRepository extends Repository
     function getAll($offset = NULL, $limit = NULL)
     {
         try {
-            $query = "SELECT * FROM category";
+            $query = "SELECT * FROM Category";
             if (isset($limit) && isset($offset)) {
                 $query .= " LIMIT :limit OFFSET :offset ";
             }
@@ -34,7 +34,7 @@ class CategoryRepository extends Repository
     function getOne($id)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM category WHERE id = :id");
+            $stmt = $this->connection->prepare("SELECT * FROM Category WHERE id = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
@@ -50,7 +50,7 @@ class CategoryRepository extends Repository
     function insert($category)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT into category (name) VALUES (?)");
+            $stmt = $this->connection->prepare("INSERT into Category (name) VALUES (?)");
 
             $stmt->execute([$category->name]);
 
@@ -66,7 +66,7 @@ class CategoryRepository extends Repository
     function update($category, $id)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE category SET name = ? WHERE id = ?");
+            $stmt = $this->connection->prepare("UPDATE Category SET name = ? WHERE id = ?");
 
             $stmt->execute([$category->name, $id]);
 
@@ -79,7 +79,7 @@ class CategoryRepository extends Repository
     function delete($id)
     {
         try {
-            $stmt = $this->connection->prepare("DELETE FROM category WHERE id = :id");
+            $stmt = $this->connection->prepare("DELETE FROM Category WHERE id = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
             return;

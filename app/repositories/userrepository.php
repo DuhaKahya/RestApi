@@ -12,7 +12,7 @@ class UserRepository extends Repository
     {
         try {
             // retrieve the user with the given username
-            $stmt = $this->connection->prepare("SELECT id, username, password FROM user WHERE username = :username");
+            $stmt = $this->connection->prepare("SELECT id, username, password FROM User WHERE username = :username");
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
@@ -48,7 +48,7 @@ class UserRepository extends Repository
 
 
     public function getAll(){
-        $statement = $this->connection->prepare("SELECT * FROM user");
+        $statement = $this->connection->prepare("SELECT * FROM User");
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, "User");
         return $statement->fetchAll();
@@ -57,7 +57,7 @@ class UserRepository extends Repository
     
 
     public function getUserByUsername($username) {
-        $statement = $this->connection->prepare("SELECT * FROM user WHERE username = :username");
+        $statement = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
         $statement->bindParam(":username", $username);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, "User");
@@ -66,7 +66,7 @@ class UserRepository extends Repository
 
     public function insert($user) {
         
-        $statement = $this->connection->prepare("INSERT INTO user (username, password, email, name, adres, phonenumber, registrationdate) 
+        $statement = $this->connection->prepare("INSERT INTO User (username, password, email, name, adres, phonenumber, registrationdate) 
         VALUES (:username, :password, :email, :name, :adres, :phonenumber, CURRENT_TIMESTAMP)");
 
         $statement->bindParam(":username", $user->username);

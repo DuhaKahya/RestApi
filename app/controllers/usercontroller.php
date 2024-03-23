@@ -31,25 +31,21 @@ class UserController extends Controller
             return;
         }
 
-        // generate jwt
-        $token = $this->generateJwt($user);
-
-        // return jwt
-        $this->respond($token);
+         // generate jwt
+         $key = "pindakaas";
+         $payload = array(
+             "iss" => "http://api.inholland.nl",
+             "aud" => "http://www.inholland.nl",
+             "sub" => $user->username,
+             "iat" => time(),
+             "nbf" => time(),
+             "exp" => time() + 3600, 
+         );
+ 
+         $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
+ 
+         // return jwt
+         $this->respond($jwt);
     }
 
-    private function generateJwt($user)
-    {
-        $key = "duhakahya";
-        $payload = array(
-            "iss" => "http://api.inholland.nl",
-            "aud" => "http://www.inholland.nl",
-            "sub" => $user->username,
-            "iat" => time(),
-            "nbf" => time(),
-            "exp" => time() + 3600, 
-        );
-
-        $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
-    }
 }

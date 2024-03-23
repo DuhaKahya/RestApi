@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 16 mrt 2024 om 14:32
+-- Gegenereerd op: 23 mrt 2024 om 00:05
 -- Serverversie: 11.1.3-MariaDB-1:11.1.3+maria~ubu2204
 -- PHP-versie: 8.2.12
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `articles`
+-- Tabelstructuur voor tabel `Articles`
 --
 
-CREATE TABLE `articles` (
+CREATE TABLE `Articles` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` varchar(9999) NOT NULL,
@@ -38,11 +38,11 @@ CREATE TABLE `articles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `articles`
+-- Gegevens worden geëxporteerd voor tabel `Articles`
 --
 
-INSERT INTO `articles` (`id`, `title`, `description`, `price`, `image`, `stock`, `category_id`) VALUES
-(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 26, 1),
+INSERT INTO `Articles` (`id`, `title`, `description`, `price`, `image`, `stock`, `category_id`) VALUES
+(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 54, 1),
 (2, 'Galatasaray Home Kit', 'Elevate your football fandom with the Galatasaray Home Kit.', 60, 'home.jpg', 79, 1),
 (3, 'Galatasaray Away Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'away.jpg', 97, 1),
 (4, 'Galatasaray Hoodie', 'Elevate your street-style game and exhibit your unwavering support with the Galatasaray Hoodie.', 50, 'hoodie.jpg', 108, 1),
@@ -52,34 +52,34 @@ INSERT INTO `articles` (`id`, `title`, `description`, `price`, `image`, `stock`,
 (8, 'Galatasaray Third Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'third.jpg', 50, 1),
 (9, 'Galatasaray - Fenerbahce', '29-12-2023 / 19:00', 99.99, 'galatasaraylogo.jpg - fenerbahcelogo.jpg', 19063, 2),
 (10, ' Ajax - Galatasaray', '21-02-2024 / 21:00', 79.99, 'ajaxlogo.jpg - galatasaraylogo.jpg', 14735, 2),
-(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29990, 2);
+(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29991, 2);
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `category`
+-- Tabelstructuur voor tabel `Category`
 --
 
-CREATE TABLE `category` (
+CREATE TABLE `Category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `category`
+-- Gegevens worden geëxporteerd voor tabel `Category`
 --
 
-INSERT INTO `category` (`id`, `name`) VALUES
+INSERT INTO `Category` (`id`, `name`) VALUES
 (1, 'Merchandise'),
 (2, 'Tickets');
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `contactPage`
+-- Tabelstructuur voor tabel `ContactPage`
 --
 
-CREATE TABLE `contactPage` (
+CREATE TABLE `ContactPage` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -89,10 +89,10 @@ CREATE TABLE `contactPage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `contactPage`
+-- Gegevens worden geëxporteerd voor tabel `ContactPage`
 --
 
-INSERT INTO `contactPage` (`id`, `name`, `email`, `subject`, `message`, `date`) VALUES
+INSERT INTO `ContactPage` (`id`, `name`, `email`, `subject`, `message`, `date`) VALUES
 (1, 'duha', 'dhudwhuds@dsbdu.nl', 'dhuduhd', 'cudubd', '2023-12-26 13:39:25'),
 (2, 'Duha', 'duhakxbuwud@nuacuna.nl', 'huufeu', 'enesnusu', '2023-12-31 11:34:51'),
 (3, 'Duha', 'duhakxbuwud@nuacuna.nl', 'huufeu', 'enesnusu', '2023-12-31 11:35:23'),
@@ -114,10 +114,10 @@ INSERT INTO `contactPage` (`id`, `name`, `email`, `subject`, `message`, `date`) 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `orders`
+-- Tabelstructuur voor tabel `Orders`
 --
 
-CREATE TABLE `orders` (
+CREATE TABLE `Orders` (
   `id` int(11) NOT NULL,
   `shoppingcartid` int(11) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
@@ -126,10 +126,29 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `shoppingcart`
+-- Tabelstructuur voor tabel `Roles`
 --
 
-CREATE TABLE `shoppingcart` (
+CREATE TABLE `Roles` (
+  `roleId` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `Roles`
+--
+
+INSERT INTO `Roles` (`roleId`, `name`) VALUES
+(1, 'Admin'),
+(2, 'Customer');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `Shoppingcart`
+--
+
+CREATE TABLE `Shoppingcart` (
   `id` int(100) NOT NULL,
   `userid` int(255) NOT NULL,
   `articleid` int(255) NOT NULL,
@@ -143,13 +162,14 @@ CREATE TABLE `shoppingcart` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `user`
+-- Tabelstructuur voor tabel `User`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `User` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `roleId` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `adres` varchar(9999) NOT NULL,
@@ -158,89 +178,101 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `user`
+-- Gegevens worden geëxporteerd voor tabel `User`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `name`, `adres`, `phonenumber`, `registrationdate`) VALUES
-(1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 'username@gmail.com', 'User Name', 'Spuistraat 99, 2000LX Amsterdam', '0616275261', '2023-12-24 20:15:26'),
-(2, 'd.kahya', '$2y$10$MTaXUIdfsejgifrLyXhkjeWtNhi85yA2RhCtDITbkHbQoN8pOkmKy', 'duhakahya@gmail.com', 'Duha Kahya', 'Lange Begijnestraat 24, 2011HH Haarlem', '0615263458', '2023-12-24 20:20:38');
+INSERT INTO `User` (`id`, `username`, `password`, `roleId`, `email`, `name`, `adres`, `phonenumber`, `registrationdate`) VALUES
+(1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 1, 'username@gmail.com', 'User Name', 'Spuistraat 99, 2000LX Amsterdam', '0616275261', '2023-12-24 20:15:26');
 
 --
 -- Indexen voor geëxporteerde tabellen
 --
 
 --
--- Indexen voor tabel `articles`
+-- Indexen voor tabel `Articles`
 --
-ALTER TABLE `articles`
+ALTER TABLE `Articles`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_category_id` (`category_id`);
 
 --
--- Indexen voor tabel `category`
+-- Indexen voor tabel `Category`
 --
-ALTER TABLE `category`
+ALTER TABLE `Category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `contactPage`
+-- Indexen voor tabel `ContactPage`
 --
-ALTER TABLE `contactPage`
+ALTER TABLE `ContactPage`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `orders`
+-- Indexen voor tabel `Orders`
 --
-ALTER TABLE `orders`
+ALTER TABLE `Orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_shoppingcart_id` (`shoppingcartid`);
 
 --
--- Indexen voor tabel `shoppingcart`
+-- Indexen voor tabel `Roles`
 --
-ALTER TABLE `shoppingcart`
+ALTER TABLE `Roles`
+  ADD PRIMARY KEY (`roleId`);
+
+--
+-- Indexen voor tabel `Shoppingcart`
+--
+ALTER TABLE `Shoppingcart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_user_id` (`userid`),
   ADD KEY `fk_article_id` (`articleid`);
 
 --
--- Indexen voor tabel `user`
+-- Indexen voor tabel `User`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_User_Role` (`roleId`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
 --
--- AUTO_INCREMENT voor een tabel `articles`
+-- AUTO_INCREMENT voor een tabel `Articles`
 --
-ALTER TABLE `articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `Articles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT voor een tabel `category`
+-- AUTO_INCREMENT voor een tabel `Category`
 --
-ALTER TABLE `category`
+ALTER TABLE `Category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT voor een tabel `contactPage`
+-- AUTO_INCREMENT voor een tabel `ContactPage`
 --
-ALTER TABLE `contactPage`
+ALTER TABLE `ContactPage`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT voor een tabel `orders`
+-- AUTO_INCREMENT voor een tabel `Orders`
 --
-ALTER TABLE `orders`
+ALTER TABLE `Orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `shoppingcart`
+-- AUTO_INCREMENT voor een tabel `Roles`
 --
-ALTER TABLE `shoppingcart`
+ALTER TABLE `Roles`
+  MODIFY `roleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT voor een tabel `Shoppingcart`
+--
+ALTER TABLE `Shoppingcart`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
@@ -248,23 +280,29 @@ ALTER TABLE `shoppingcart`
 --
 
 --
--- Beperkingen voor tabel `articles`
+-- Beperkingen voor tabel `Articles`
 --
-ALTER TABLE `articles`
-  ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+ALTER TABLE `Articles`
+  ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `Category` (`id`);
 
 --
--- Beperkingen voor tabel `orders`
+-- Beperkingen voor tabel `Orders`
 --
-ALTER TABLE `orders`
-  ADD CONSTRAINT `fk_shoppingcart_id` FOREIGN KEY (`shoppingcartid`) REFERENCES `shoppingcart` (`id`);
+ALTER TABLE `Orders`
+  ADD CONSTRAINT `fk_shoppingcart_id` FOREIGN KEY (`shoppingcartid`) REFERENCES `Shoppingcart` (`id`);
 
 --
--- Beperkingen voor tabel `shoppingcart`
+-- Beperkingen voor tabel `Shoppingcart`
 --
-ALTER TABLE `shoppingcart`
-  ADD CONSTRAINT `fk_article_id` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`),
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`userid`) REFERENCES `user` (`id`);
+ALTER TABLE `Shoppingcart`
+  ADD CONSTRAINT `fk_article_id` FOREIGN KEY (`articleid`) REFERENCES `Articles` (`id`),
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`userid`) REFERENCES `User` (`id`);
+
+--
+-- Beperkingen voor tabel `User`
+--
+ALTER TABLE `User`
+  ADD CONSTRAINT `FK_User_Role` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`roleId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

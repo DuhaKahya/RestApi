@@ -11,7 +11,7 @@ class ShoppingCartRepository extends Repository
     public function getAll()
     {
         try {
-            $statement = $this->connection->prepare("SELECT * FROM shoppingcart");
+            $statement = $this->connection->prepare("SELECT * FROM Shoppingcart");
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_CLASS, "Models\ShoppingCart");
             return $statement->fetchAll();
@@ -23,7 +23,7 @@ class ShoppingCartRepository extends Repository
     public function insert($shoppingCart)
     {
         try {
-            $statement = $this->connection->prepare("INSERT INTO shoppingcart (userid, articleid, quantity, price, totalprice, status) VALUES (:userid, :articleid, :quantity, :price, :totalprice, 'unpaid')");
+            $statement = $this->connection->prepare("INSERT INTO Shoppingcart (userid, articleid, quantity, price, totalprice, status) VALUES (:userid, :articleid, :quantity, :price, :totalprice, 'unpaid')");
 
             $statement->bindParam(":userid", $shoppingCart->userid);
             $statement->bindParam(":articleid", $shoppingCart->articleid);
@@ -40,7 +40,7 @@ class ShoppingCartRepository extends Repository
     public function delete($id)
     {
         try {
-            $statement = $this->connection->prepare("DELETE FROM shoppingcart WHERE id = :id");
+            $statement = $this->connection->prepare("DELETE FROM Shoppingcart WHERE id = :id");
             $statement->bindParam(":id", $id);
             $statement->execute();
         } catch (PDOException $e) {
@@ -51,7 +51,7 @@ class ShoppingCartRepository extends Repository
     public function getShoppingCartById($id)
     {
         try {
-            $statement = $this->connection->prepare("SELECT * FROM shoppingcart WHERE id = :id");
+            $statement = $this->connection->prepare("SELECT * FROM Shoppingcart WHERE id = :id");
             $statement->bindParam(":id", $id);
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_CLASS, "Models\ShoppingCart");
@@ -64,7 +64,7 @@ class ShoppingCartRepository extends Repository
     public function updateStatus($id, $status)
     {
         try {
-            $statement = $this->connection->prepare("UPDATE shoppingcart SET status = :status WHERE id = :id");
+            $statement = $this->connection->prepare("UPDATE Shoppingcart SET status = :status WHERE id = :id");
             $statement->bindParam(":id", $id);
             $statement->bindParam(":status", $status);
             $statement->execute();
