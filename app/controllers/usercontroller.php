@@ -48,4 +48,31 @@ class UserController extends Controller
          $this->respond($jwt);
     }
 
+    public function register() {
+        // read user data from request body
+        $userData = $this->createObjectFromPostedJson("Models\\User");
+    
+        // check if the username is already taken
+        $user = $this->service->getByUsername($userData->username);
+    
+        // if the method returned a user, the username is already taken
+        if ($user) {
+            // handle username already taken
+            $this->respondWithError(409, "Username already taken");
+            return;
+        }
+    
+        // Hash the password
+        $hashedPassword = password_hash($userData->password, PASSWORD_DEFAULT);
+        // Set the hashed password to the user data
+        $userData->password = $hashedPassword;
+    
+        // insert user into db
+        $user = $this->service->insert($userData);
+    
+        // return the user
+        $this->respond($user);
+    }
+    
+
 }

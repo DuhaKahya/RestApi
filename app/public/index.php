@@ -29,6 +29,14 @@ $router->delete('/articles/(\d+)', 'ArticleController@delete');
 
 // routes for the users endpoint
 $router->post('/users/login', 'UserController@login');
+$router->post('/users/register', 'UserController@register');
+
+// routers for the roles endpoint
+$router->get('/roles', 'RolesController@getAll');
+$router->get('/roles/(\d+)', 'RolesController@getOne');
+$router->post('/roles', 'RolesController@create');
+$router->put('/roles/(\d+)', 'RolesController@update');
+$router->delete('/roles/(\d+)', 'RolesController@delete');
 
 
 // Run it!
