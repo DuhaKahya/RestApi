@@ -23,9 +23,7 @@ class UserService {
     public function insert($user) {
         $this->userService->insert($user);
     }
-    public function getUserByUsername($username) {
-        return $this->userService->getUserByUsername($username);
-    }
+
 
     public function authenticateUser($username, $password) {
         $authenticatedUser = $this->userService->getUserByUsernameAndPassword($username, $password);

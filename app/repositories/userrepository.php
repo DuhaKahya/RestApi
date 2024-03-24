@@ -16,21 +16,25 @@ class UserRepository extends Repository
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\User');
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_OBJ); // Fetch as object
 
-            // verify if the password matches the hash in the database
-            $result = $this->verifyPassword($password, $user->password);
-
-            if (!$result)
+            // verify if the user exists
+            if (!$user) {
                 return false;
+            }
+
+            // verify if the password matches
+            if (!password_verify($password, $user->password)) {
+                return false;
+            }
 
             // do not pass the password hash to the caller
-            $user->password = "";
+            unset($user->password);
 
             return $user;
         } catch (PDOException $e) {
-            echo $e;
+            echo $e->getMessage();
+            return false;
         }
     }
 
@@ -54,21 +58,10 @@ class UserRepository extends Repository
         return $statement->fetchAll();
     }
 
-    
-
-    public function getUserByUsername($username) {
-        $statement = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
-        $statement->bindParam(":username", $username);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_CLASS, "Models\User");
-        
-        return $statement->fetch();
-    }
-
     public function insert($user) {
 
-        $statement = $this->connection->prepare("INSERT INTO User (username, password, email, name, adres, phonenumber, registrationdate, roleid) 
-        VALUES (:username, :password, :email, :name, :adres, :phonenumber, CURRENT_TIMESTAMP, :roleid)");
+        $statement = $this->connection->prepare("INSERT INTO User (username, password, email, name, adres, phonenumber, roleId) 
+        VALUES (:username, :password, :email, :name, :adres, :phonenumber, :roleId)");
     
         $statement->bindParam(":username", $user->username);
         $statement->bindParam(":password", $user->password);
@@ -76,9 +69,10 @@ class UserRepository extends Repository
         $statement->bindParam(":name", $user->name);
         $statement->bindParam(":adres", $user->adres);
         $statement->bindParam(":phonenumber", $user->phonenumber);
-        $statement->bindParam(":roleid", $user->roleId); 
+        $statement->bindParam(":roleId", $user->roleId); 
     
         $statement->execute();
     }
+
     
 }

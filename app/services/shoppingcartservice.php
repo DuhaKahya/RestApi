@@ -1,5 +1,7 @@
 <?php
 
+namespace Services;
+
 use Repositories\ShoppingCartRepository;
 use Repositories\ArticleRepository;
 

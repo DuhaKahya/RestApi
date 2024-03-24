@@ -1,6 +1,8 @@
 <?php
 
-class ContactPage{
+namespace Models;
+
+class Contact{
     
     public int $id;
     public string $name;

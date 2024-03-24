@@ -38,6 +38,8 @@ $router->post('/roles', 'RolesController@create');
 $router->put('/roles/(\d+)', 'RolesController@update');
 $router->delete('/roles/(\d+)', 'RolesController@delete');
 
+// routers for the contact endpoint
+$router->post('/contact', 'ContactController@create');
 
 // Run it!
 $router->run();

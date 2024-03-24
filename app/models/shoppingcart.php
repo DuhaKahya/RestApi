@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class ShoppingCart {
     
     public int $id;

@@ -21,6 +21,12 @@ class UserController extends Controller
         // read user data from request body
         $loginData = $this->createObjectFromPostedJson("Models\\User");
 
+        // check if login data is valid
+        if (!$loginData) {
+            $this->respondWithError(400, "Invalid login data");
+            return;
+        }
+
         // get user from db
         $user = $this->service->checkUsernamePassword($loginData->username, $loginData->password);
 
@@ -41,6 +47,8 @@ class UserController extends Controller
              "nbf" => time(),
              "exp" => time() + 3600, 
          );
+
+         
  
          $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
  
