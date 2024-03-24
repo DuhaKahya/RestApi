@@ -12,7 +12,7 @@ class UserRepository extends Repository
     {
         try {
             // retrieve the user with the given username
-            $stmt = $this->connection->prepare("SELECT id, username, password, roleId FROM User WHERE username = :username");
+            $stmt = $this->connection->prepare("SELECT id, username, password FROM User WHERE username = :username");
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
@@ -72,6 +72,14 @@ class UserRepository extends Repository
         $statement->bindParam(":roleId", $user->roleId); 
     
         $statement->execute();
+    }
+
+    public function getUserByUsername($username) {
+        $statement = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
+        $statement->bindParam(":username", $username);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Models\User");
+        return $statement->fetch();
     }
 
     

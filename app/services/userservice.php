@@ -29,6 +29,10 @@ class UserService {
         $authenticatedUser = $this->userService->getUserByUsernameAndPassword($username, $password);
         return $authenticatedUser;
     }
+
+    public function getUserByUsername($username) {
+        return $this->userService->getUserByUsername($username);
+    }
 }
 
 ?>

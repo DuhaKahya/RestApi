@@ -30,6 +30,7 @@ $router->delete('/articles/(\d+)', 'ArticleController@delete');
 // routes for the users endpoint
 $router->post('/users/login', 'UserController@login');
 $router->post('/users/register', 'UserController@register');
+$router->get('/users', 'UserController@getCurrentUser');
 
 // routers for the roles endpoint
 $router->get('/roles', 'RolesController@getAll');
