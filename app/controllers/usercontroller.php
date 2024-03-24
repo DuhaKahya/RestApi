@@ -37,6 +37,8 @@ class UserController extends Controller
             return;
         }
 
+        $roleId = $user->roleId;
+
          // generate jwt
          $key = "pindakaas";
          $payload = array(
@@ -46,6 +48,7 @@ class UserController extends Controller
              "iat" => time(),
              "nbf" => time(),
              "exp" => time() + 3600, 
+             "roleId" => $roleId
          );
 
          
