@@ -97,6 +97,7 @@ class ArticleRepository extends Repository
         }
         return true;
     }
+    
 
     private function rowToArticle($row) {
         $article = new Article();

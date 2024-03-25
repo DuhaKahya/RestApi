@@ -31,6 +31,8 @@ class ArticleService {
     public function getOne($id) {
         return $this->articleRepository->getOne($id);
     }
+
+
 }
 
 ?>
