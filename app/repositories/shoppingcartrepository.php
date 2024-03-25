@@ -48,7 +48,7 @@ class ShoppingCartRepository extends Repository
         }
     }
 
-    public function getShoppingCartById($id)
+    public function getOne($id)
     {
         try {
             $statement = $this->connection->prepare("SELECT * FROM Shoppingcart WHERE id = :id");
@@ -61,15 +61,16 @@ class ShoppingCartRepository extends Repository
         }
     }
 
-    public function updateStatus($id, $status)
-    {
+    public function updateStatus($id, $status) {
         try {
             $statement = $this->connection->prepare("UPDATE Shoppingcart SET status = :status WHERE id = :id");
-            $statement->bindParam(":id", $id);
             $statement->bindParam(":status", $status);
+            $statement->bindParam(":id", $id);
             $statement->execute();
         } catch (PDOException $e) {
             echo $e;
         }
     }
+    
+
 }

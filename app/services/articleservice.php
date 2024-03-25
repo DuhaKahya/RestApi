@@ -20,10 +20,6 @@ class ArticleService {
         $this->articleRepository->insert($article);
     }
 
-    public function getArticleById($id) {
-        return $this->articleRepository->getOne($id); 
-    }
-
     public function update($article, $id) {
         $this->articleRepository->update($article, $id);
     }

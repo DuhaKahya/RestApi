@@ -44,31 +44,24 @@ class ShoppingCartController extends Controller
         $this->respond($shoppingCartItem);
     }
 
-    public function create()
-    {
-        try {
-
-            $articleId = $_POST['articleId'];
-            $quantity = $_POST['quantity'];
-
-            // Voeg het artikel toe aan het winkelwagentje met behulp van de ShoppingCartService
-            $this->service->addToCart($articleId, $quantity);
-
-            $shoppingCart = $this->createObjectFromPostedJson("Models\\ShoppingCart");
-            $this->service->insert($shoppingCart);
-
-        } catch (Exception $e) {
-            $this->respondWithError(500, $e->getMessage());
-        }
-
-        $this->respond($shoppingCartItem);
-    }
-
     public function update($id)
     {
         try {
+            $status = 'paid';
+            $this->service->updateStatus($id, $status);
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
+    
+        $this->respond(true);
+    }
+    
+
+    public function create()
+    {
+        try {
             $shoppingCartItem = $this->createObjectFromPostedJson("Models\\ShoppingCart");
-            $this->service->update($shoppingCartItem, $id);
+            $this->service->create($shoppingCartItem);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
