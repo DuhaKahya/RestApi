@@ -38,7 +38,7 @@ class UserController extends Controller
         }
 
          // generate jwt
-         $key = "pindakaas";
+         $key = "duhakahya";
          $payload = array(
              "iss" => "http://api.inholland.nl",
              "aud" => "http://www.inholland.nl",
@@ -46,14 +46,19 @@ class UserController extends Controller
              "iat" => time(),
              "nbf" => time(),
              "exp" => time() + 3600, 
+             "roleId" => $user->roleId,
          );
 
          
  
-         $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
+        $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
  
-         // return jwt
-         $this->respond($jwt);
+        $response = new \stdClass();
+        $response->token = $jwt;
+        $response->roleId = $user->roleId;
+
+        // return response object
+        $this->respond($response);
     }
 
     public function register() {

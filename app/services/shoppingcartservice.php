@@ -52,8 +52,6 @@ class ShoppingCartService {
         $this->articleRepository->updateStock($article);
     }
         
-
-  
     }
 
    

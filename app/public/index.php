@@ -27,6 +27,9 @@ $router->post('/articles', 'ArticleController@create');
 $router->put('/articles/(\d+)', 'ArticleController@update');
 $router->delete('/articles/(\d+)', 'ArticleController@delete');
 
+// for the shoppingcart insert via de articlecontroller
+$router->post('/articles/(\d+)', 'ArticleController@insert');
+
 // routes for the users endpoint
 $router->post('/users/login', 'UserController@login');
 $router->post('/users/register', 'UserController@register');
@@ -41,6 +44,14 @@ $router->delete('/roles/(\d+)', 'RolesController@delete');
 
 // routers for the contact endpoint
 $router->post('/contact', 'ContactController@create');
+
+// routers for the shoppingcart endpoint
+$router->get('/shoppingcart', 'ShoppingCartController@getAll');
+$router->get('/shoppingcart/(\d+)', 'ShoppingCartController@getOne');
+$router->post('/shoppingcart', 'ShoppingCartController@create');
+$router->put('/shoppingcart/(\d+)', 'ShoppingCartController@update');
+$router->delete('/shoppingcart/(\d+)', 'ShoppingCartController@delete');
+
 
 // Run it!
 $router->run();

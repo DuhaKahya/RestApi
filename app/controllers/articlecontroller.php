@@ -4,14 +4,17 @@ namespace Controllers;
 
 use Exception;
 use Services\ArticleService;
+use Services\ShoppingCartService;
 
 class ArticleController extends Controller
 {
-    private $service;
+    private $articleService;
+    private $shoppingcartService;
 
     function __construct()
     {
-        $this->service = new ArticleService();
+        $this->articleService = new ArticleService();
+        $this->shoppingcartService = new ShoppingCartService();
     }
 
     public function getAll()
@@ -26,14 +29,14 @@ class ArticleController extends Controller
             $limit = $_GET["limit"];
         }
 
-        $articles = $this->service->getAll($offset, $limit);
+        $articles = $this->articleService->getAll($offset, $limit);
 
         $this->respond($articles);
     }
 
     public function getOne($id)
     {
-        $article = $this->service->getOne($id);
+        $article = $this->articleService->getOne($id);
 
         if (!$article) {
             $this->respondWithError(404, "Article not found");
@@ -47,7 +50,7 @@ class ArticleController extends Controller
     {
         try {
             $article = $this->createObjectFromPostedJson("Models\\Article");
-            $article = $this->service->insert($article);
+            $article = $this->articleService->insert($article);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
             return;
@@ -60,7 +63,7 @@ class ArticleController extends Controller
     {
         try {
             $article = $this->createObjectFromPostedJson("Models\\Article");
-            $article = $this->service->update($article, $id);
+            $article = $this->articleService->update($article, $id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
             return;
@@ -72,7 +75,7 @@ class ArticleController extends Controller
     public function delete($id)
     {
         try {
-            $this->service->delete($id);
+            $this->articleService->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
             return;
@@ -80,4 +83,18 @@ class ArticleController extends Controller
 
         $this->respond(true);
     }
+
+    public function insert()
+    {
+        try {
+            $shoppingCart = $this->createObjectFromPostedJson("Models\\ShoppingCart");
+            $this->shoppingcartService->insert($shoppingCart);
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+            return;
+        }
+
+        $this->respond($shoppingCart);
+    }
+    
 }
