@@ -47,6 +47,7 @@ class UserController extends Controller
              "nbf" => time(),
              "exp" => time() + 3600, 
              "roleId" => $user->roleId,
+             "id" => $user->id,
          );
 
          
@@ -56,6 +57,7 @@ class UserController extends Controller
         $response = new \stdClass();
         $response->token = $jwt;
         $response->roleId = $user->roleId;
+        $response->id = $user->id;
 
         // return response object
         $this->respond($response);
