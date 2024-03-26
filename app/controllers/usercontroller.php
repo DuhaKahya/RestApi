@@ -61,6 +61,9 @@ class UserController extends Controller
 
         // return response object
         $this->respond($response);
+
+        $_SESSION['user'] = $user;
+
     }
 
     public function register() {
