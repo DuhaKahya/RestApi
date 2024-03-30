@@ -49,12 +49,21 @@ class ShoppingCartController extends Controller
         try {
             $status = 'paid';
             $this->service->updateStatus($id, $status);
+
+            // Update stock in articles table
+            $item = $this->service->getOne($id);
+
+            $this->service->updateStock($item->articleid, $item->quantity);
+
+            
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
-    
+        
         $this->respond(true);
     }
+
     
 
     public function create()

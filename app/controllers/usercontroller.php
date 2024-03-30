@@ -53,7 +53,7 @@ class UserController extends Controller
          
  
         $jwt = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
- 
+
         $response = new \stdClass();
         $response->token = $jwt;
         $response->roleId = $user->roleId;
@@ -61,8 +61,6 @@ class UserController extends Controller
 
         // return response object
         $this->respond($response);
-
-        $_SESSION['user'] = $user;
 
     }
 

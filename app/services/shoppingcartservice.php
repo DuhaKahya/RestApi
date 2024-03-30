@@ -34,6 +34,11 @@ class ShoppingCartService {
     public function updateStatus($id, $status) {
         $this->shoppingCartRepository->updateStatus($id, $status);
     }
+
+    public function updateStock($articleId, $quantity) {
+        $this->shoppingCartRepository->updateStock($articleId, $quantity);
+    }
+    
     
     
         

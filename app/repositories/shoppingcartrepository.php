@@ -71,6 +71,23 @@ class ShoppingCartRepository extends Repository
             echo $e;
         }
     }
+
+    public function updateStock($articleId, $quantity) {
+        try {
+            $statement = $this->connection->prepare("UPDATE Articles SET stock = stock - :quantity WHERE id = :articleId");
+            $statement->bindParam(":quantity", $quantity);
+            $statement->bindParam(":articleId", $articleId);
+            $statement->execute();
+
+            
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+    
+    
+    
+    
     
 
 }
