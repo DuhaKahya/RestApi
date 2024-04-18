@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 23 mrt 2024 om 00:05
--- Serverversie: 11.1.3-MariaDB-1:11.1.3+maria~ubu2204
--- PHP-versie: 8.2.12
+-- Gegenereerd op: 18 apr 2024 om 15:55
+-- Serverversie: 11.3.2-MariaDB-1:11.3.2+maria~ubu2204
+-- PHP-versie: 8.2.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `developmentdb`
 --
+CREATE DATABASE IF NOT EXISTS `developmentdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `developmentdb`;
 
 -- --------------------------------------------------------
 
@@ -42,7 +44,7 @@ CREATE TABLE `Articles` (
 --
 
 INSERT INTO `Articles` (`id`, `title`, `description`, `price`, `image`, `stock`, `category_id`) VALUES
-(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 54, 1),
+(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 97, 1),
 (2, 'Galatasaray Home Kit', 'Elevate your football fandom with the Galatasaray Home Kit.', 60, 'home.jpg', 79, 1),
 (3, 'Galatasaray Away Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'away.jpg', 97, 1),
 (4, 'Galatasaray Hoodie', 'Elevate your street-style game and exhibit your unwavering support with the Galatasaray Hoodie.', 50, 'hoodie.jpg', 108, 1),
@@ -52,7 +54,7 @@ INSERT INTO `Articles` (`id`, `title`, `description`, `price`, `image`, `stock`,
 (8, 'Galatasaray Third Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'third.jpg', 50, 1),
 (9, 'Galatasaray - Fenerbahce', '29-12-2023 / 19:00', 99.99, 'galatasaraylogo.jpg - fenerbahcelogo.jpg', 19063, 2),
 (10, ' Ajax - Galatasaray', '21-02-2024 / 21:00', 79.99, 'ajaxlogo.jpg - galatasaraylogo.jpg', 14735, 2),
-(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29991, 2);
+(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29900, 2);
 
 -- --------------------------------------------------------
 
@@ -109,7 +111,8 @@ INSERT INTO `ContactPage` (`id`, `name`, `email`, `subject`, `message`, `date`) 
 (14, 'duha', 'euseu@byedsb.bl', 'ds', 'sd', '2024-01-10 16:04:17'),
 (15, 'duha', 'euseu@byedsb.bl', 'ds', 'sd', '2024-01-10 16:04:31'),
 (16, 'duha', 'euseu@byedsb.bl', 'dsd', 'dsd', '2024-01-11 10:44:21'),
-(17, 'duha', 'euseu@byedsb.bl', 'sadadsdas', 'dsaadsads', '2024-01-20 15:00:57');
+(17, 'duha', 'euseu@byedsb.bl', 'sadadsdas', 'dsaadsads', '2024-01-20 15:00:57'),
+(18, 'adsfg', 'sdfg', 'sfdgfhg', 'drgtfhyg', '2024-03-26 15:23:36');
 
 -- --------------------------------------------------------
 
@@ -130,7 +133,7 @@ CREATE TABLE `Orders` (
 --
 
 CREATE TABLE `Roles` (
-  `roleId` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -138,7 +141,7 @@ CREATE TABLE `Roles` (
 -- Gegevens worden geëxporteerd voor tabel `Roles`
 --
 
-INSERT INTO `Roles` (`roleId`, `name`) VALUES
+INSERT INTO `Roles` (`id`, `name`) VALUES
 (1, 'Admin'),
 (2, 'Customer');
 
@@ -159,6 +162,21 @@ CREATE TABLE `Shoppingcart` (
   `status` varchar(100) NOT NULL DEFAULT 'unpaid'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `Shoppingcart`
+--
+
+INSERT INTO `Shoppingcart` (`id`, `userid`, `articleid`, `quantity`, `price`, `totalprice`, `date`, `status`) VALUES
+(30, 4, 1, 2, 29.99, 59.98, '2024-03-30 21:09:18', 'paid'),
+(31, 4, 1, 44, 29.99, 1319.56, '2024-03-30 21:10:16', 'paid'),
+(32, 4, 1, 2, 29.99, 59.98, '2024-03-30 21:11:19', 'unpaid'),
+(33, 4, 11, 91, 199.99, 18199.1, '2024-03-30 21:12:18', 'paid'),
+(34, 3, 5, 2, 35, 70, '2024-04-01 17:12:27', 'unpaid'),
+(35, 4, 2, 2, 60, 120, '2024-04-01 17:30:25', 'unpaid'),
+(36, 4, 1, 2, 29.99, 59.98, '2024-04-01 21:47:55', 'unpaid'),
+(37, 3, 1, 3, 29.99, 89.97, '2024-04-01 21:48:12', 'unpaid'),
+(38, 3, 1, 3, 29.99, 89.97, '2024-04-18 15:54:13', 'paid');
+
 -- --------------------------------------------------------
 
 --
@@ -174,7 +192,7 @@ CREATE TABLE `User` (
   `name` varchar(255) NOT NULL,
   `adres` varchar(9999) NOT NULL,
   `phonenumber` varchar(15) NOT NULL,
-  `registrationdate` datetime NOT NULL DEFAULT current_timestamp()
+  `registrationdate` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -182,7 +200,9 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`id`, `username`, `password`, `roleId`, `email`, `name`, `adres`, `phonenumber`, `registrationdate`) VALUES
-(1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 1, 'username@gmail.com', 'User Name', 'Spuistraat 99, 2000LX Amsterdam', '0616275261', '2023-12-24 20:15:26');
+(1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 1, 'username@gmail.com', 'User Name', 'Spuistraat 99, 2000LX Amsterdam', '0616275261', '2024-03-26 15:36:09'),
+(3, 'd.kahya', '$2y$10$ygX3hHLn6AYyWzeEnT.F6OITUVpe93lmWFqgTUAnjer/kH7Wimxv6', 2, 'duha@gmail.com', 'Duha', 'Duha', '0635241526', '2024-03-26 16:16:00'),
+(4, 'mark', '$2y$10$FGQ7mJukZdO8BxI/c339Fu9AKDVnjqAI5GvGAImUucxQvs/BEMtAi', 2, 'mark@gmail.com', 'Mark', 'Mark', '0625362514', '2024-03-26 16:36:39');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -218,7 +238,7 @@ ALTER TABLE `Orders`
 -- Indexen voor tabel `Roles`
 --
 ALTER TABLE `Roles`
-  ADD PRIMARY KEY (`roleId`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `Shoppingcart`
@@ -255,7 +275,7 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT voor een tabel `ContactPage`
 --
 ALTER TABLE `ContactPage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT voor een tabel `Orders`
@@ -267,13 +287,19 @@ ALTER TABLE `Orders`
 -- AUTO_INCREMENT voor een tabel `Roles`
 --
 ALTER TABLE `Roles`
-  MODIFY `roleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `Shoppingcart`
 --
 ALTER TABLE `Shoppingcart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT voor een tabel `User`
+--
+ALTER TABLE `User`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
@@ -302,7 +328,7 @@ ALTER TABLE `Shoppingcart`
 -- Beperkingen voor tabel `User`
 --
 ALTER TABLE `User`
-  ADD CONSTRAINT `FK_User_Role` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`roleId`);
+  ADD CONSTRAINT `FK_User_Role` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
