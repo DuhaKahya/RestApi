@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 18 apr 2024 om 15:55
+-- Gegenereerd op: 28 apr 2024 om 12:37
 -- Serverversie: 11.3.2-MariaDB-1:11.3.2+maria~ubu2204
 -- PHP-versie: 8.2.17
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `developmentdb`
 --
-CREATE DATABASE IF NOT EXISTS `developmentdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `developmentdb`;
 
 -- --------------------------------------------------------
 
@@ -44,9 +42,9 @@ CREATE TABLE `Articles` (
 --
 
 INSERT INTO `Articles` (`id`, `title`, `description`, `price`, `image`, `stock`, `category_id`) VALUES
-(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 97, 1),
-(2, 'Galatasaray Home Kit', 'Elevate your football fandom with the Galatasaray Home Kit.', 60, 'home.jpg', 79, 1),
-(3, 'Galatasaray Away Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'away.jpg', 97, 1),
+(1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 93, 1),
+(2, 'Galatasaray Home Kit', 'Elevate your football fandom with the Galatasaray Home Kit.', 60, 'home.jpg', 75, 1),
+(3, 'Galatasaray Away Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'away.jpg', 95, 1),
 (4, 'Galatasaray Hoodie', 'Elevate your street-style game and exhibit your unwavering support with the Galatasaray Hoodie.', 50, 'hoodie.jpg', 108, 1),
 (5, 'Galatasaray Shirt', 'Make a bold statement and represent your devotion to Galatasaray with the Galatasaray Shirt.', 35, 'shirt.jpg', 50, 1),
 (6, 'Galatasaray Shoes', 'Step into the game with the Galatasaray Shoes.', 99.99, 'shoes.jpg', 50, 1),
@@ -112,7 +110,8 @@ INSERT INTO `ContactPage` (`id`, `name`, `email`, `subject`, `message`, `date`) 
 (15, 'duha', 'euseu@byedsb.bl', 'ds', 'sd', '2024-01-10 16:04:31'),
 (16, 'duha', 'euseu@byedsb.bl', 'dsd', 'dsd', '2024-01-11 10:44:21'),
 (17, 'duha', 'euseu@byedsb.bl', 'sadadsdas', 'dsaadsads', '2024-01-20 15:00:57'),
-(18, 'adsfg', 'sdfg', 'sfdgfhg', 'drgtfhyg', '2024-03-26 15:23:36');
+(18, 'adsfg', 'sdfg', 'sfdgfhg', 'drgtfhyg', '2024-03-26 15:23:36'),
+(19, 'wregt', 'efrgWdsf.de', 'adsf', 'efreeer', '2024-04-23 11:27:48');
 
 -- --------------------------------------------------------
 
@@ -125,6 +124,13 @@ CREATE TABLE `Orders` (
   `shoppingcartid` int(11) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `Orders`
+--
+
+INSERT INTO `Orders` (`id`, `shoppingcartid`, `date`) VALUES
+(1, 42, '2024-04-28 12:33:35');
 
 -- --------------------------------------------------------
 
@@ -174,8 +180,12 @@ INSERT INTO `Shoppingcart` (`id`, `userid`, `articleid`, `quantity`, `price`, `t
 (34, 3, 5, 2, 35, 70, '2024-04-01 17:12:27', 'unpaid'),
 (35, 4, 2, 2, 60, 120, '2024-04-01 17:30:25', 'unpaid'),
 (36, 4, 1, 2, 29.99, 59.98, '2024-04-01 21:47:55', 'unpaid'),
-(37, 3, 1, 3, 29.99, 89.97, '2024-04-01 21:48:12', 'unpaid'),
-(38, 3, 1, 3, 29.99, 89.97, '2024-04-18 15:54:13', 'paid');
+(37, 3, 1, 3, 29.99, 89.97, '2024-04-01 21:48:12', 'paid'),
+(38, 3, 1, 3, 29.99, 89.97, '2024-04-18 15:54:13', 'paid'),
+(39, 5, 2, 2, 60, 120, '2024-04-23 11:27:15', 'paid'),
+(40, 5, 1, 1, 29.99, 29.99, '2024-04-28 12:26:21', 'paid'),
+(41, 5, 2, 2, 60, 120, '2024-04-28 12:31:52', 'paid'),
+(42, 5, 3, 2, 60, 120, '2024-04-28 12:33:30', 'paid');
 
 -- --------------------------------------------------------
 
@@ -202,7 +212,9 @@ CREATE TABLE `User` (
 INSERT INTO `User` (`id`, `username`, `password`, `roleId`, `email`, `name`, `adres`, `phonenumber`, `registrationdate`) VALUES
 (1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 1, 'username@gmail.com', 'User Name', 'Spuistraat 99, 2000LX Amsterdam', '0616275261', '2024-03-26 15:36:09'),
 (3, 'd.kahya', '$2y$10$ygX3hHLn6AYyWzeEnT.F6OITUVpe93lmWFqgTUAnjer/kH7Wimxv6', 2, 'duha@gmail.com', 'Duha', 'Duha', '0635241526', '2024-03-26 16:16:00'),
-(4, 'mark', '$2y$10$FGQ7mJukZdO8BxI/c339Fu9AKDVnjqAI5GvGAImUucxQvs/BEMtAi', 2, 'mark@gmail.com', 'Mark', 'Mark', '0625362514', '2024-03-26 16:36:39');
+(4, 'mark', '$2y$10$FGQ7mJukZdO8BxI/c339Fu9AKDVnjqAI5GvGAImUucxQvs/BEMtAi', 2, 'mark@gmail.com', 'Mark', 'Mark', '0625362514', '2024-03-26 16:36:39'),
+(5, 'hicham', '$2y$10$oJlW4eHwq3/E7u9wjdGQsek082M6CrlvyMPnZzMLo6ECXxeAlt0F.', 2, 'Hicham123@gmail.com', 'Hicham', 'Hichamstraat', '0611524651', '2024-04-23 11:26:42'),
+(6, 'test', '$2y$10$CwB1cipqh585i2EROJmBA.yglsCutc3ORL3milqIKo8fj3IL6OtLW', 2, 'test', 'test', 'test', '062251', '2024-04-28 12:36:57');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -275,13 +287,13 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT voor een tabel `ContactPage`
 --
 ALTER TABLE `ContactPage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT voor een tabel `Orders`
 --
 ALTER TABLE `Orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT voor een tabel `Roles`
@@ -293,13 +305,13 @@ ALTER TABLE `Roles`
 -- AUTO_INCREMENT voor een tabel `Shoppingcart`
 --
 ALTER TABLE `Shoppingcart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT voor een tabel `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
