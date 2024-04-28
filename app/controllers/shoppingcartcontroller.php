@@ -4,15 +4,18 @@ namespace Controllers;
 
 use Exception;
 use Services\ShoppingCartService;
+use Services\OrderService;
 
 class ShoppingCartController extends Controller
 {
-    private $service;
+    private $shoppingCartService;
+    private $orderService;
 
     // initialize services
     function __construct()
     {
-        $this->service = new ShoppingCartService();
+        $this->shoppingCartService = new ShoppingCartService();
+        $this->orderService = new OrderService();
     }
 
     public function getAll()
@@ -27,14 +30,14 @@ class ShoppingCartController extends Controller
             $limit = $_GET["limit"];
         }
 
-        $shoppingCartItems = $this->service->getAll($offset, $limit);
+        $shoppingCartItems = $this->shoppingCartService->getAll($offset, $limit);
 
         $this->respond($shoppingCartItems);
     }
 
     public function getOne($id)
     {
-        $shoppingCartItem = $this->service->getOne($id);
+        $shoppingCartItem = $this->shoppingCartService->getOne($id);
 
         if (!$shoppingCartItem) {
             $this->respondWithError(404, "Shopping cart item not found");
@@ -48,13 +51,17 @@ class ShoppingCartController extends Controller
     {
         try {
             $status = 'paid';
-            $this->service->updateStatus($id, $status);
+            $this->shoppingCartService->updateStatus($id, $status);
 
             // Update stock in articles table
-            $item = $this->service->getOne($id);
+            $item = $this->shoppingCartService->getOne($id);
 
-            $this->service->updateStock($item->articleid, $item->quantity);
+            $this->shoppingCartService->updateStock($item->articleid, $item->quantity);
 
+            // Create order
+            $order = $this->createObjectFromPostedJson("Models\\Orders");
+            $order->shoppingcartid = $id;
+            $this->orderService->insert($order);
             
 
         } catch (Exception $e) {
@@ -70,7 +77,7 @@ class ShoppingCartController extends Controller
     {
         try {
             $shoppingCartItem = $this->createObjectFromPostedJson("Models\\ShoppingCart");
-            $this->service->create($shoppingCartItem);
+            $this->shoppingCartService->create($shoppingCartItem);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
@@ -81,7 +88,7 @@ class ShoppingCartController extends Controller
     public function delete($id)
     {
         try {
-            $this->service->delete($id);
+            $this->shoppingCartService->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
