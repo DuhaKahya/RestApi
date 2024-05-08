@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 28 apr 2024 om 12:37
+-- Gegenereerd op: 08 mei 2024 om 14:41
 -- Serverversie: 11.3.2-MariaDB-1:11.3.2+maria~ubu2204
 -- PHP-versie: 8.2.17
 
@@ -45,14 +45,14 @@ INSERT INTO `Articles` (`id`, `title`, `description`, `price`, `image`, `stock`,
 (1, 'Galatasaray Soccer Ball', 'Elevate your game with the official Galatasaray football.', 29.99, 'ball.jpg', 93, 1),
 (2, 'Galatasaray Home Kit', 'Elevate your football fandom with the Galatasaray Home Kit.', 60, 'home.jpg', 75, 1),
 (3, 'Galatasaray Away Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'away.jpg', 95, 1),
-(4, 'Galatasaray Hoodie', 'Elevate your street-style game and exhibit your unwavering support with the Galatasaray Hoodie.', 50, 'hoodie.jpg', 108, 1),
+(4, 'Galatasaray Hoodie', 'Elevate your street-style game and exhibit your unwavering support with the Galatasaray Hoodie.', 50, 'hoodie.jpg', 105, 1),
 (5, 'Galatasaray Shirt', 'Make a bold statement and represent your devotion to Galatasaray with the Galatasaray Shirt.', 35, 'shirt.jpg', 50, 1),
 (6, 'Galatasaray Shoes', 'Step into the game with the Galatasaray Shoes.', 99.99, 'shoes.jpg', 50, 1),
 (7, 'Galatasaray Limited Edition Watch', 'Capture every moment in time with the Galatasaray Limited Edition Watch.', 149.99, 'watch.jpg', 20, 1),
-(8, 'Galatasaray Third Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'third.jpg', 50, 1),
+(8, 'Galatasaray Third Kit', 'Dress in style and showcase your allegiance with the Galatasaray Away Kit.', 60, 'third.jpg', 45, 1),
 (9, 'Galatasaray - Fenerbahce', '29-12-2023 / 19:00', 99.99, 'galatasaraylogo.jpg - fenerbahcelogo.jpg', 19063, 2),
 (10, ' Ajax - Galatasaray', '21-02-2024 / 21:00', 79.99, 'ajaxlogo.jpg - galatasaraylogo.jpg', 14735, 2),
-(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29900, 2);
+(11, 'Galatasaray - RealMadrid', '09-04-2024 / 20:15', 199.99, 'galatasaraylogo.jpg - realmadridlogo.jpg', 29894, 2);
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,10 @@ CREATE TABLE `Orders` (
 --
 
 INSERT INTO `Orders` (`id`, `shoppingcartid`, `date`) VALUES
-(1, 42, '2024-04-28 12:33:35');
+(1, 42, '2024-04-28 12:33:35'),
+(2, 43, '2024-04-28 12:38:39'),
+(3, 44, '2024-04-28 12:38:39'),
+(4, 45, '2024-05-08 14:38:38');
 
 -- --------------------------------------------------------
 
@@ -185,7 +188,10 @@ INSERT INTO `Shoppingcart` (`id`, `userid`, `articleid`, `quantity`, `price`, `t
 (39, 5, 2, 2, 60, 120, '2024-04-23 11:27:15', 'paid'),
 (40, 5, 1, 1, 29.99, 29.99, '2024-04-28 12:26:21', 'paid'),
 (41, 5, 2, 2, 60, 120, '2024-04-28 12:31:52', 'paid'),
-(42, 5, 3, 2, 60, 120, '2024-04-28 12:33:30', 'paid');
+(42, 5, 3, 2, 60, 120, '2024-04-28 12:33:30', 'paid'),
+(43, 6, 11, 6, 199.99, 1199.94, '2024-04-28 12:38:30', 'paid'),
+(44, 6, 8, 5, 60, 300, '2024-04-28 12:38:34', 'paid'),
+(45, 6, 4, 3, 50, 150, '2024-05-08 14:38:25', 'paid');
 
 -- --------------------------------------------------------
 
@@ -293,7 +299,7 @@ ALTER TABLE `ContactPage`
 -- AUTO_INCREMENT voor een tabel `Orders`
 --
 ALTER TABLE `Orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `Roles`
@@ -305,7 +311,7 @@ ALTER TABLE `Roles`
 -- AUTO_INCREMENT voor een tabel `Shoppingcart`
 --
 ALTER TABLE `Shoppingcart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT voor een tabel `User`
