@@ -72,15 +72,28 @@ class UserRepository extends Repository
         $statement->bindParam(":roleId", $user->roleId); 
     
         $statement->execute();
+        return $user;
     }
 
     public function getUserByUsername($username) {
-        $statement = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
-        $statement->bindParam(":username", $username);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_CLASS, "Models\User");
-        return $statement->fetch();
+        try {
+            $statement = $this->connection->prepare("SELECT COUNT(*) FROM User WHERE username = :username");
+            $statement->bindParam(":username", $username);
+            $statement->execute();
+    
+            // Fetch the count of matching users
+            $count = $statement->fetchColumn();
+    
+            // Return true if at least one user exists, otherwise false
+            return $count > 0;
+        } catch (PDOException $e) {
+            // Log or handle the error as needed
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
     }
+    
+    
 
     
 }

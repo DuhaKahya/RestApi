@@ -20,11 +20,11 @@ class ShoppingCartService {
     }
 
     public function insert($shoppingCart) {
-        $this->shoppingCartRepository->insert($shoppingCart);
+        return $this->shoppingCartRepository->insert($shoppingCart);
     }
 
     public function delete($id) {
-        $this->shoppingCartRepository->delete($id);
+        return $this->shoppingCartRepository->delete($id);
     }
 
     public function getOne($id) {

@@ -57,28 +57,37 @@ class UserController extends Controller
 
     public function register() 
     {
-        // Read user data from request body
-        $userData = $this->createObjectFromPostedJson("Models\\User");
-
-        // Check if the username is already taken
-        $user = $this->service->getUserByUsername($userData->username);
-
-        // If the method returned a user, the username is already taken
-        if ($user) {
-            // Handle username already taken
-            $this->respondWithError(409, "Username already taken");
-            return;
+        try {
+            // Read user data from request body
+            $userData = $this->createObjectFromPostedJson("Models\\User");
+    
+            // Check if the username is already taken
+            $user = $this->service->getUserByUsername($userData->username);
+    
+            // If the method returned a user, the username is already taken
+            if ($user) {
+                // Handle username already taken
+                $this->respondWithError(409, "Username already taken");
+                return;
+            }
+    
+            // Hash the password
+            $hashedPassword = password_hash($userData->password, PASSWORD_DEFAULT);
+            // Set the hashed password to the user data
+            $userData->password = $hashedPassword;
+    
+            // Insert user into DB
+            $user = $this->service->insert($userData);
+    
+            // Return the user
+            $this->respond([
+                'message' => 'User created successfully',
+                'user' => $user
+            ]);
+    
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
         }
-
-        // Hash the password
-        $hashedPassword = password_hash($userData->password, PASSWORD_DEFAULT);
-        // Set the hashed password to the user data
-        $userData->password = $hashedPassword;
-
-        // Insert user into DB
-        $user = $this->service->insert($userData);
-
-        // Return the user
-        $this->respond($user);
     }
+    
 }

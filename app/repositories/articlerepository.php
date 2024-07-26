@@ -56,7 +56,7 @@ class ArticleRepository extends Repository
 
             $article->id = $this->connection->lastInsertId();
 
-            return $this->getOne($article->id);
+            return $article;
 
         } catch (PDOException $e) {
             echo $e;
@@ -71,7 +71,7 @@ class ArticleRepository extends Repository
 
             $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image, $id]);
 
-            return $this->getOne($id);
+            return $article;
 
         } catch (PDOException $e) {
             echo $e;

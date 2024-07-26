@@ -19,16 +19,18 @@ class ArticleController extends Controller
 
     public function getAll()
     {
-
         $articles = $this->articleService->getAll();
+
+        if (!$articles) {
+            $this->respondWithError(404, "Articles not found");
+            return;
+        }
 
         $this->respond($articles);
     }
 
     public function getOne($id)
     {
-        $this->checkForJwt();
-
         $article = $this->articleService->getOne($id);
 
         if (!$article) {
@@ -45,13 +47,22 @@ class ArticleController extends Controller
             $this->checkForJwt();
 
             $article = $this->createObjectFromPostedJson("Models\\Article");
+
+            if (!$article) {
+                $this->respondWithError(400, "Invalid article data");
+                return;
+            }
+
             $article = $this->articleService->insert($article);
+
+            $this->respond([
+                'message' => 'Article created successfully',
+                'article' => $article
+            ]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($article);
     }
 
     public function update($id)
@@ -60,13 +71,22 @@ class ArticleController extends Controller
             $this->checkForJwt();
 
             $article = $this->createObjectFromPostedJson("Models\\Article");
-            $article = $this->articleService->update($article, $id);
+
+            if (!$article) {
+                $this->respondWithError(400, "Invalid article data");
+                return;
+            }
+
+            $updatedArticle = $this->articleService->update($article, $id);
+
+            $this->respond([
+                'message' => 'Article updated successfully',
+                'article' => $updatedArticle
+            ]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($article);
     }
 
     public function delete($id)
@@ -74,13 +94,13 @@ class ArticleController extends Controller
         try {
             $this->checkForJwt();
 
-            $this->articleService->delete($id);
+            $success = $this->articleService->delete($id);
+
+            $this->respond(["message" => "Article deleted successfully"]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond(true);
     }
 
     public function insert()
@@ -89,15 +109,19 @@ class ArticleController extends Controller
             $this->checkForJwt();
 
             $shoppingCart = $this->createObjectFromPostedJson("Models\\ShoppingCart");
+
+            if (!$shoppingCart) {
+                $this->respondWithError(400, "Invalid shopping cart data");
+                return;
+            }
+
             $this->shoppingcartService->insert($shoppingCart);
-            
+
+            $this->respond($shoppingCart);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($shoppingCart);
     }
-
-    
 }
+?>

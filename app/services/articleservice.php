@@ -17,15 +17,15 @@ class ArticleService {
     }
 
     public function insert($article) {
-        $this->articleRepository->insert($article);
+        return $this->articleRepository->insert($article);
     }
 
     public function update($article, $id) {
-        $this->articleRepository->update($article, $id);
+        return $this->articleRepository->update($article, $id);
     }
 
     public function delete($id) {
-        $this->articleRepository->delete($id);
+        return $this->articleRepository->delete($id);
     }
 
     public function getOne($id) {
