@@ -12,8 +12,8 @@ class CategoryService {
         $this->repository = new CategoryRepository();
     }
 
-    public function getAll($offset = NULL, $limit = NULL) {
-        return $this->repository->getAll($offset, $limit);
+    public function getAll() {
+        return $this->repository->getAll();
     }
 
     public function getOne($id) {

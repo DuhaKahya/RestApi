@@ -8,28 +8,22 @@ use Repositories\Repository;
 
 class CategoryRepository extends Repository
 {
-    function getAll($offset = NULL, $limit = NULL)
+    function getAll()
     {
         try {
             $query = "SELECT * FROM Category";
-            if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
-            }
             $stmt = $this->connection->prepare($query);
-            if (isset($limit) && isset($offset)) {
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            }
             $stmt->execute();
-
+    
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Category');
-            $articles = $stmt->fetchAll();
-
-            return $articles;
+            $categories = $stmt->fetchAll();
+    
+            return $categories;
         } catch (PDOException $e) {
             echo $e;
         }
     }
+    
 
     function getOne($id)
     {

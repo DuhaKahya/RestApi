@@ -38,11 +38,13 @@ class ShoppingCartService {
     public function updateStock($articleId, $quantity) {
         $this->shoppingCartRepository->updateStock($articleId, $quantity);
     }
-    
-    
-    
-        
+
+    public function getCartOfUser($userId) {
+        return $this->shoppingCartRepository->getCartOfUser($userId);
     }
+
+
+}
 
    
 ?>

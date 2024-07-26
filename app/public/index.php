@@ -46,11 +46,13 @@ $router->delete('/roles/(\d+)', 'RolesController@delete');
 $router->post('/contact', 'ContactController@create');
 
 // routers for the shoppingcart endpoint
-$router->get('/shoppingcart', 'ShoppingCartController@getAll');
-$router->get('/shoppingcart/(\d+)', 'ShoppingCartController@getOne');
+$router->get('/shoppingcart', 'ShoppingCartController@getAllCartItems');
+$router->get('/shoppingcart/(\d+)', 'ShoppingCartController@getCartOfUser');
+$router->get('/shoppingcart/article/(\d+)', 'ShoppingCartController@getOne');
 $router->post('/shoppingcart', 'ShoppingCartController@create');
 $router->put('/shoppingcart/(\d+)', 'ShoppingCartController@update');
 $router->delete('/shoppingcart/(\d+)', 'ShoppingCartController@delete');
+
 
 
 // Run it!

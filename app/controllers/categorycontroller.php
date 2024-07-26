@@ -17,23 +17,15 @@ class CategoryController extends Controller
 
     public function getAll()
     {
-        $offset = NULL;
-        $limit = NULL;
-
-        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
-            $offset = $_GET["offset"];
-        }
-        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
-            $limit = $_GET["limit"];
-        }
-
-        $categories = $this->service->getAll($offset, $limit);
+        $categories = $this->service->getAll();
 
         $this->respond($categories);
     }
 
     public function getOne($id)
     {
+        $this->checkForJwt();
+
         $category = $this->service->getOne($id);
 
         if (!$category) {
@@ -47,6 +39,8 @@ class CategoryController extends Controller
     public function create()
     {
         try {
+            $this->checkForJwt();
+
             $category = $this->createObjectFromPostedJson("Models\\Category");
             $this->service->insert($category);
         } catch (Exception $e) {
@@ -59,6 +53,8 @@ class CategoryController extends Controller
     public function update($id)
     {
         try {
+            $this->checkForJwt();
+
             $category = $this->createObjectFromPostedJson("Models\\Category");
             $this->service->update($category, $id);
         } catch (Exception $e) {
@@ -71,6 +67,8 @@ class CategoryController extends Controller
     public function delete($id)
     {
         try {
+            $this->checkForJwt();
+
             $this->service->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());

@@ -17,6 +17,8 @@ class ContactController extends Controller
     public function create()
     {
         try {
+            $this->checkForJwt();
+
             $contact = $this->createObjectFromPostedJson("Models\\Contact");
             $contact = $this->service->create($contact);
         } catch (Exception $e) {

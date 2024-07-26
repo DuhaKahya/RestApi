@@ -19,23 +19,16 @@ class ArticleController extends Controller
 
     public function getAll()
     {
-        $offset = NULL;
-        $limit = NULL;
 
-        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
-            $offset = $_GET["offset"];
-        }
-        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
-            $limit = $_GET["limit"];
-        }
-
-        $articles = $this->articleService->getAll($offset, $limit);
+        $articles = $this->articleService->getAll();
 
         $this->respond($articles);
     }
 
     public function getOne($id)
     {
+        $this->checkForJwt();
+
         $article = $this->articleService->getOne($id);
 
         if (!$article) {
@@ -49,6 +42,8 @@ class ArticleController extends Controller
     public function create()
     {
         try {
+            $this->checkForJwt();
+
             $article = $this->createObjectFromPostedJson("Models\\Article");
             $article = $this->articleService->insert($article);
         } catch (Exception $e) {
@@ -62,6 +57,8 @@ class ArticleController extends Controller
     public function update($id)
     {
         try {
+            $this->checkForJwt();
+
             $article = $this->createObjectFromPostedJson("Models\\Article");
             $article = $this->articleService->update($article, $id);
         } catch (Exception $e) {
@@ -75,6 +72,8 @@ class ArticleController extends Controller
     public function delete($id)
     {
         try {
+            $this->checkForJwt();
+
             $this->articleService->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
@@ -87,6 +86,8 @@ class ArticleController extends Controller
     public function insert()
     {
         try {
+            $this->checkForJwt();
+
             $shoppingCart = $this->createObjectFromPostedJson("Models\\ShoppingCart");
             $this->shoppingcartService->insert($shoppingCart);
             

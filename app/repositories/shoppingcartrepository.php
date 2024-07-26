@@ -8,6 +8,7 @@ use Repositories\Repository;
 
 class ShoppingCartRepository extends Repository
 {
+    // Fetch all shopping cart items
     public function getAll()
     {
         try {
@@ -17,13 +18,32 @@ class ShoppingCartRepository extends Repository
             return $statement->fetchAll();
         } catch (PDOException $e) {
             echo $e;
+            return []; // Ensure to return an empty array on error
         }
     }
 
+    public function getCartOfUser($userId)
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM Shoppingcart WHERE userid = :userId AND status = 'unpaid'");
+            $statement->bindParam(":userId", $userId);
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_CLASS, "Models\ShoppingCart");
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            echo $e;
+            return []; // Ensure to return an empty array on error
+        }
+    }
+
+
+    // Insert a new shopping cart item
     public function insert($shoppingCart)
     {
         try {
-            $statement = $this->connection->prepare("INSERT INTO Shoppingcart (userid, articleid, quantity, price, totalprice, status) VALUES (:userid, :articleid, :quantity, :price, :totalprice, 'unpaid')");
+            $statement = $this->connection->prepare(
+                "INSERT INTO Shoppingcart (userid, articleid, quantity, price, totalprice, status) VALUES (:userid, :articleid, :quantity, :price, :totalprice, 'unpaid')"
+            );
 
             $statement->bindParam(":userid", $shoppingCart->userid);
             $statement->bindParam(":articleid", $shoppingCart->articleid);
@@ -37,6 +57,7 @@ class ShoppingCartRepository extends Repository
         }
     }
 
+    // Delete a shopping cart item by its ID
     public function delete($id)
     {
         try {
@@ -48,6 +69,7 @@ class ShoppingCartRepository extends Repository
         }
     }
 
+    // Fetch a specific shopping cart item by its ID
     public function getOne($id)
     {
         try {
@@ -58,10 +80,13 @@ class ShoppingCartRepository extends Repository
             return $statement->fetch();
         } catch (PDOException $e) {
             echo $e;
+            return null; // Ensure to return null on error
         }
     }
 
-    public function updateStatus($id, $status) {
+    // Update the status of a shopping cart item
+    public function updateStatus($id, $status)
+    {
         try {
             $statement = $this->connection->prepare("UPDATE Shoppingcart SET status = :status WHERE id = :id");
             $statement->bindParam(":status", $status);
@@ -72,22 +97,18 @@ class ShoppingCartRepository extends Repository
         }
     }
 
-    public function updateStock($articleId, $quantity) {
+    // Update the stock of an article
+    public function updateStock($articleId, $quantity)
+    {
         try {
-            $statement = $this->connection->prepare("UPDATE Articles SET stock = stock - :quantity WHERE id = :articleId");
+            $statement = $this->connection->prepare(
+                "UPDATE Articles SET stock = stock - :quantity WHERE id = :articleId"
+            );
             $statement->bindParam(":quantity", $quantity);
             $statement->bindParam(":articleId", $articleId);
             $statement->execute();
-
-            
         } catch (PDOException $e) {
             echo $e;
         }
     }
-    
-    
-    
-    
-    
-
 }

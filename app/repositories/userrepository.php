@@ -16,7 +16,8 @@ class UserRepository extends Repository
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
-            $user = $stmt->fetch(PDO::FETCH_OBJ); // Fetch as object
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\User');
+            $user = $stmt->fetch();
 
             // verify if the user exists
             if (!$user) {
@@ -29,12 +30,11 @@ class UserRepository extends Repository
             }
 
             // do not pass the password hash to the caller
-            unset($user->password);
+            $user->password = "";
 
             return $user;
         } catch (PDOException $e) {
             echo $e->getMessage();
-            return false;
         }
     }
 
