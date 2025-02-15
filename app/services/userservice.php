@@ -21,7 +21,7 @@ class UserService {
     }
 
     public function insert($user) {
-        $this->userService->insert($user);
+        return $this->userService->insert($user);
     }
 
 

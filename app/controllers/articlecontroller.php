@@ -19,17 +19,12 @@ class ArticleController extends Controller
 
     public function getAll()
     {
-        $offset = NULL;
-        $limit = NULL;
+        $articles = $this->articleService->getAll();
 
-        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
-            $offset = $_GET["offset"];
+        if (!$articles) {
+            $this->respondWithError(404, "Articles not found");
+            return;
         }
-        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
-            $limit = $_GET["limit"];
-        }
-
-        $articles = $this->articleService->getAll($offset, $limit);
 
         $this->respond($articles);
     }
@@ -49,54 +44,84 @@ class ArticleController extends Controller
     public function create()
     {
         try {
+            $this->checkForJwt();
+
             $article = $this->createObjectFromPostedJson("Models\\Article");
+
+            if (!$article) {
+                $this->respondWithError(400, "Invalid article data");
+                return;
+            }
+
             $article = $this->articleService->insert($article);
+
+            $this->respond([
+                'message' => 'Article created successfully',
+                'article' => $article
+            ]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($article);
     }
 
     public function update($id)
     {
         try {
+            $this->checkForJwt();
+
             $article = $this->createObjectFromPostedJson("Models\\Article");
-            $article = $this->articleService->update($article, $id);
+
+            if (!$article) {
+                $this->respondWithError(400, "Invalid article data");
+                return;
+            }
+
+            $updatedArticle = $this->articleService->update($article, $id);
+
+            $this->respond([
+                'message' => 'Article updated successfully',
+                'article' => $updatedArticle
+            ]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($article);
     }
 
     public function delete($id)
     {
         try {
-            $this->articleService->delete($id);
+            $this->checkForJwt();
+
+            $success = $this->articleService->delete($id);
+
+            $this->respond(["message" => "Article deleted successfully"]);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond(true);
     }
 
     public function insert()
     {
         try {
+            $this->checkForJwt();
+
             $shoppingCart = $this->createObjectFromPostedJson("Models\\ShoppingCart");
+
+            if (!$shoppingCart) {
+                $this->respondWithError(400, "Invalid shopping cart data");
+                return;
+            }
+
             $this->shoppingcartService->insert($shoppingCart);
-            
+
+            $this->respond($shoppingCart);
+
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
-            return;
         }
-
-        $this->respond($shoppingCart);
     }
-
-    
 }
+?>

@@ -8,28 +8,22 @@ use Repositories\Repository;
 
 class RolesRepository extends Repository
 {
-    public function getAll($offset = null, $limit = null)
+    public function getAll()
     {
         try {
             $query = "SELECT * FROM Roles";
-            if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
-            }
             $stmt = $this->connection->prepare($query);
-            if (isset($limit) && isset($offset)) {
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            }
             $stmt->execute();
-
+    
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Roles');
             $roles = $stmt->fetchAll();
-
+    
             return $roles;
         } catch (PDOException $e) {
             echo $e;
         }
     }
+    
 
     public function getOne($id)
     {

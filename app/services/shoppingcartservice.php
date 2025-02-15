@@ -20,11 +20,11 @@ class ShoppingCartService {
     }
 
     public function insert($shoppingCart) {
-        $this->shoppingCartRepository->insert($shoppingCart);
+        return $this->shoppingCartRepository->insert($shoppingCart);
     }
 
     public function delete($id) {
-        $this->shoppingCartRepository->delete($id);
+        return $this->shoppingCartRepository->delete($id);
     }
 
     public function getOne($id) {
@@ -38,11 +38,13 @@ class ShoppingCartService {
     public function updateStock($articleId, $quantity) {
         $this->shoppingCartRepository->updateStock($articleId, $quantity);
     }
-    
-    
-    
-        
+
+    public function getCartOfUser($userId) {
+        return $this->shoppingCartRepository->getCartOfUser($userId);
     }
+
+
+}
 
    
 ?>

@@ -10,30 +10,24 @@ use Models\Category;
 
 class ArticleRepository extends Repository
 {
-    public function getAll($offset = NULL, $limit = NULL)
+    public function getAll()
     {
         try {
             $query = "SELECT article.*, Category.name as category_name FROM Articles AS article INNER JOIN Category ON article.Category_id = Category.id";
-            if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
-            }
             $stmt = $this->connection->prepare($query);
-            if (isset($limit) && isset($offset)) {
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            }
             $stmt->execute();
-
+    
             $articles = array();
-            while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {               
+            while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
                 $articles[] = $this->rowToArticle($row);
             }
-
+    
             return $articles;
         } catch (PDOException $e) {
             echo $e;
         }
     }
+    
 
     public function getOne($id)
     {
@@ -62,7 +56,7 @@ class ArticleRepository extends Repository
 
             $article->id = $this->connection->lastInsertId();
 
-            return $this->getOne($article->id);
+            return $article;
 
         } catch (PDOException $e) {
             echo $e;
@@ -77,7 +71,7 @@ class ArticleRepository extends Repository
 
             $stmt->execute([$article->title, $article->description, $article->price, $article->stock, $article->category_id, $article->image, $id]);
 
-            return $this->getOne($id);
+            return $article;
 
         } catch (PDOException $e) {
             echo $e;

@@ -11,6 +11,7 @@ class User {
     public string $name;
     public string $adres;
     public string $phonenumber;
+    public string $registrationdate;
 
 }
 

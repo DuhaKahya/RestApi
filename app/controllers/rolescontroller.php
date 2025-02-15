@@ -17,23 +17,15 @@ class RolesController extends Controller
 
     public function getAll()
     {
-        $offset = NULL;
-        $limit = NULL;
-
-        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
-            $offset = $_GET["offset"];
-        }
-        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
-            $limit = $_GET["limit"];
-        }
-
-        $roles = $this->service->getAll($offset, $limit);
+        $roles = $this->service->getAll();
 
         $this->respond($roles);
     }
 
     public function getOne($id)
     {
+        $this->checkForJwt();
+
         $role = $this->service->getOne($id);
 
         if (!$role) {
@@ -59,6 +51,8 @@ class RolesController extends Controller
     public function update($id)
     {
         try {
+            $this->checkForJwt();
+
             $role = $this->createObjectFromPostedJson("Models\\Role");
             $this->service->update($role, $id);
         } catch (Exception $e) {
@@ -71,6 +65,8 @@ class RolesController extends Controller
     public function delete($id)
     {
         try {
+            $this->checkForJwt();
+
             $this->service->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());

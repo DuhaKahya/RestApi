@@ -18,25 +18,38 @@ class ShoppingCartController extends Controller
         $this->orderService = new OrderService();
     }
 
-    public function getAll()
+    public function getAllCartItems()
     {
-        $offset = NULL;
-        $limit = NULL;
 
-        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
-            $offset = $_GET["offset"];
-        }
-        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
-            $limit = $_GET["limit"];
-        }
+        $this->checkForJwt();
 
-        $shoppingCartItems = $this->shoppingCartService->getAll($offset, $limit);
+        $shoppingCartItems = $this->shoppingCartService->getAll();
+
+        if (!$shoppingCartItems) {
+            $shoppingCartItems = [];
+        }
 
         $this->respond($shoppingCartItems);
     }
 
+    public function getCartOfUser($id)
+    {
+        $this->checkForJwt();
+
+        $shoppingCartItems = $this->shoppingCartService->getCartOfUser($id);
+
+        if (!$shoppingCartItems) {
+            $shoppingCartItems = [];
+        }
+
+        $this->respond($shoppingCartItems);
+    }
+
+
     public function getOne($id)
     {
+        $this->checkForJwt();
+
         $shoppingCartItem = $this->shoppingCartService->getOne($id);
 
         if (!$shoppingCartItem) {
@@ -50,6 +63,8 @@ class ShoppingCartController extends Controller
     public function update($id)
     {
         try {
+            $this->checkForJwt();
+
             $status = 'paid';
             $this->shoppingCartService->updateStatus($id, $status);
 
@@ -76,6 +91,7 @@ class ShoppingCartController extends Controller
     public function create()
     {
         try {
+            $this->checkForJwt();
             $shoppingCartItem = $this->createObjectFromPostedJson("Models\\ShoppingCart");
             $this->shoppingCartService->create($shoppingCartItem);
         } catch (Exception $e) {
@@ -88,6 +104,7 @@ class ShoppingCartController extends Controller
     public function delete($id)
     {
         try {
+            $this->checkForJwt();
             $this->shoppingCartService->delete($id);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
